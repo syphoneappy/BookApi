@@ -1,16 +1,16 @@
+# from crypt import methods
 from flask import *
 import json,os
 from flask_sqlalchemy import SQLAlchemy
 
 from urllib.request import urlopen
-
-
 app = Flask(__name__)
 app.secret_key= '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////python/python/bookApi/BookApi/database.db'
 db = SQLAlchemy(app)
 
 api = "https://www.googleapis.com/books/v1/volumes?q=filter=free-ebooks:"
+apiSession = "https://www.googleapis.com/books/v1/volumes?q=filter=ebooks:"
 apiSearch = "https://www.googleapis.com/books/v1/volumes?q=intitle:"
 
 
@@ -19,6 +19,12 @@ class user(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120),  nullable=False, index=True, unique=True)
     password = db.Column(db.String(80))
+
+class cart(db.Model):
+    __tablename__ = 'cart'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120))
+    title = db.Column(db.String(80))
 
 db.create_all()
 
@@ -46,7 +52,11 @@ def login():
 
 @app.route("/home")
 def home():
-    return render_template("index.html")
+    resp = urlopen(apiSession)
+    book_data = json.load(resp)
+    book =  book_data["items"]
+    Maps = map(lambda datum: datum['volumeInfo'], book)
+    return render_template("index.html",SessionData = Maps)
 
 @app.route("/register",methods=["GET", "POST"])
 def register():
@@ -59,6 +69,18 @@ def register():
         flash("Commited")
         return redirect(url_for("login"))
     return render_template("Credential.html")
+
+@app.route("/additem/<string:id_data>",methods=["GET","POST"])
+def app(id_data):
+    if request.method == "POST":
+        data = request.form[id_data]
+        cart = cart(email = session['user'],title = data)
+        db.session.add(cart)
+        db.session.commit()
+        flash("Commited")
+        return redirect(url_for("home"))
+    return render_template("cart.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
