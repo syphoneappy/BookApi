@@ -12,10 +12,24 @@
         </form>
         
       </div>
-      <div class="float-left">
-        <a href=""><span class="material-icons">
-            account_circle
-            </span></a>
+      <div class="float-right">
+        <div class="dropdown">
+          {%if session%}
+          <span class="material-symbols-outlined">
+            shopping_cart
+            </span>
+            <a href=""> 
+              <span class="material-symbols-outlined">
+                login
+                </span>
+            </a>
+            {%else%}
+            <a href=""><span class="material-symbols-outlined">
+              logout
+              </span></a>
+            {%endif%}
+            
+          </div>
             </div>
     </div>
     </div>
