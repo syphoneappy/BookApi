@@ -1,9 +1,11 @@
-# from crypt import methods
+
 from flask import *
 import json,os
 from flask_sqlalchemy import SQLAlchemy
 
 from urllib.request import urlopen
+
+
 app = Flask(__name__)
 app.secret_key= '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////python/python/bookApi/BookApi/database.db'
@@ -70,16 +72,22 @@ def register():
         return redirect(url_for("login"))
     return render_template("Credential.html")
 
-@app.route("/additem/<string:id_data>",methods=["GET","POST"])
-def app(id_data):
-    if request.method == "POST":
-        data = request.form[id_data]
-        cart = cart(email = session['user'],title = data)
-        db.session.add(cart)
-        db.session.commit()
-        flash("Commited")
-        return redirect(url_for("home"))
-    return render_template("cart.html")
+@app.route("/inventory")
+def newAdd(id_data):
+    data = id_data
+    return data
+
+@app.route("/additem/<string:id_data>",methods=["POST"])
+def add(id_data):
+    product = Product.query.filter(id_data.id == product_id)
+    cart_item = CartItem(product=product)
+    db.session.add(cart_item)
+    db.session.commit()
+    return render_tempate('cart.html', product=products)
+
+    
+
+
 
 
 if __name__ == "__main__":

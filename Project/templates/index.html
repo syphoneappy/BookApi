@@ -15,6 +15,7 @@
         <div class="d-flex flex-row justify-content-center">
           <div class="row">
             {% for i in SessionData%}
+            
             <div class="col-4">
             <div class="card mb-3 " style="max-width: 540px;">
                 <div class="row g-0">
@@ -40,8 +41,13 @@
           <div class="card-body">
             
           
-            <div class="d-flex justify-content-center p-3"><a href="{{i['previewLink']}}" class="card-link btn btn-primary">Read book</a>
-                <a href="{{i['infoLink']}}" class="card-link btn btn-warning">add to inventory</a>
+            <div class="d-flex justify-content-center p-3">
+              <a href="{{i['previewLink']}}" class="card-link btn btn-primary">Read book</a>
+              <!-- Button trigger modal -->
+
+<a onclick="addToCart( {{i['title']}} )" class="card-link btn btn-warning">add to inventory</a>
+
+                
             </div>
     
           </div>
@@ -104,7 +110,13 @@
     <pre></pre>
     {%endif%}
 </div>
-    
+<script>
+  function addToCart(productId) {
+      fetch('[your.local.host.]/additem/p',productId, 
+          {method: 'POST'}
+      )
+  }
+  </script>
 </body>
 </html>
 
