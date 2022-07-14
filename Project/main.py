@@ -1,4 +1,5 @@
 
+import email
 from flask import *
 import json,os
 from flask_sqlalchemy import SQLAlchemy
@@ -73,17 +74,20 @@ def register():
     return render_template("Credential.html")
 
 @app.route("/inventory")
-def newAdd(id_data):
-    data = id_data
-    return data
+def newAdd():
+    users = cart.query.filter_by(email=session['user']).all()
+    return render_template("cart.html",value = users)
+
+
+
 
 @app.route("/additem/<string:id_data>",methods=["POST"])
 def add(id_data):
-    product = Product.query.filter(id_data.id == product_id)
-    cart_item = CartItem(product=product)
-    db.session.add(cart_item)
+    product = cart(email = session['user'],title = id_data)
+    db.session.add(product)
     db.session.commit()
-    return render_tempate('cart.html', product=products)
+    return redirect("/inventory")
+
 
     
 

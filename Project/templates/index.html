@@ -45,7 +45,7 @@
               <a href="{{i['previewLink']}}" class="card-link btn btn-primary">Read book</a>
               <!-- Button trigger modal -->
 
-<a onclick="addToCart( {{i['title']}} )" class="card-link btn btn-warning">add to inventory</a>
+<a onclick="addToCart( '{{i.title}}'   );" class="card-link btn btn-warning" href="/inventory">add to inventory</a>
 
                 
             </div>
@@ -112,7 +112,7 @@
 </div>
 <script>
   function addToCart(productId) {
-      fetch('[your.local.host.]/additem/p',productId, 
+      fetch('/additem/'+productId, 
           {method: 'POST'}
       )
   }

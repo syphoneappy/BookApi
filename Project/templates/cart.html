@@ -1,0 +1,5 @@
+{% for data in value %}
+    {%if session['user'] == data.email%}
+    {{data.title}}
+    {%endif%}
+{% endfor %}
