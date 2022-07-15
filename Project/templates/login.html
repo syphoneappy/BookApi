@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head.html'%}
+    <style>
+        body {
+ background-image: url("https://www.onmsft.com/wp-content/uploads/2015/08/Win10Logo-1.jpg");
+ background-color: #cccccc;
+}
+    </style>
+</head>
+<body>
+    <img src="" alt="">
+    <div class="container">
+    <div class="d-flex">
+      
+
+            <div class="p-4 bg-info bg-gradient" style="height:90vh;">
+                <h1 class="text-center">Login</h1>
+                <form method="post">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="uname" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input type="password" class="form-control bg-dark text-light" id="exampleInputPassword1" name="passw" required>
+                    </div>
+                    <div class="d-grid gap-2 mx-auto">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                      </div>
+                  </form>
+                  <h4 class="text-center p-4">New User please:<br><a href="/register" class="p-2">register</a></h4>
+            </div>
+        
+    </div>
+</div>
+</body>
+</html>

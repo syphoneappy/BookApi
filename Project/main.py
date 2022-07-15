@@ -49,7 +49,7 @@ def login():
             session['loggedin'] = True
             session['user'] = uname
             return redirect(url_for("home"))
-    return render_template("Credential.html")
+    return render_template("login.html")
 
 @app.route("/home")
 def home():
