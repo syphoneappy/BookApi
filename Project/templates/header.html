@@ -4,8 +4,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">Book Library</a>
-        
+        {%if session%}
+        <a class="navbar-brand" href="/home">Book Library</a>
+        {%else%}
+        <a class="navbar-brand" href="/">Book Library</a>
+        {%endif%}
         <form class="d-flex justify-content-center">
           <input class="form-control me-4" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
@@ -15,18 +18,18 @@
       <div class="float-right">
         <div class="dropdown">
           {%if session%}
-          <span class="material-symbols-outlined">
+          <a href="/inventory"><span class="material-symbols-outlined">
             shopping_cart
-            </span>
-            <a href=""> 
-              <span class="material-symbols-outlined">
-                login
-                </span>
-            </a>
-            {%else%}
-            <a href=""><span class="material-symbols-outlined">
+            </span></a>
+            <a href="/LogOut"><span class="material-symbols-outlined">
               logout
               </span></a>
+            {%else%}
+              <a href="/login"> 
+                <span class="material-symbols-outlined">
+                  login
+                  </span>
+              </a>
             {%endif%}
             
           </div>

@@ -1,5 +1,3 @@
-
-import email
 from flask import *
 import json,os
 from flask_sqlalchemy import SQLAlchemy
@@ -55,11 +53,14 @@ def login():
 
 @app.route("/home")
 def home():
-    resp = urlopen(apiSession)
-    book_data = json.load(resp)
-    book =  book_data["items"]
-    Maps = map(lambda datum: datum['volumeInfo'], book)
-    return render_template("index.html",SessionData = Maps)
+    if session:
+        resp = urlopen(apiSession)
+        book_data = json.load(resp)
+        book =  book_data["items"]
+        Maps = map(lambda datum: datum['volumeInfo'], book)
+        return render_template("index.html",vol = Maps)
+    else:
+        return render_template("404.html")
 
 @app.route("/register",methods=["GET", "POST"])
 def register():
@@ -75,10 +76,17 @@ def register():
 
 @app.route("/inventory")
 def newAdd():
-    users = cart.query.filter_by(email=session['user']).all()
-    return render_template("cart.html",value = users)
-
-
+    try:
+        users = cart.query.filter_by(email=session['user']).all()
+        resp = urlopen(apiSession)
+        book_data = json.load(resp)
+        book =  book_data["items"]
+        Maps = map(lambda datum: datum['volumeInfo'], book)
+        if session['user']:
+            return render_template("cart.html",data = Maps,users=users)
+        return render_template("cart.html",users = users)
+    except:
+        return render_template("404.html")
 
 
 @app.route("/additem/<string:id_data>",methods=["POST"])
@@ -88,6 +96,20 @@ def add(id_data):
     db.session.commit()
     return redirect("/inventory")
 
+@app.route("/remove/<int:id_data>",methods = ["POST"])
+def remove(id_data):
+    obj = cart.query.filter_by(id = id_data).one()
+    db.session.delete(obj)
+    db.session.commit()
+    flash("Commited")
+    return render_template("cart.html")
+
+@app.route('/LogOut')
+def LogOut():
+    session.pop('loggedin',None)
+    session.pop('user',None)
+    session.clear()
+    return redirect("/")
 
     
 
