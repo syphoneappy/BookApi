@@ -4,3 +4,5 @@
 
 
 run the following cmd: python3 project/main.py
+
+run it on http://localhost:5000
